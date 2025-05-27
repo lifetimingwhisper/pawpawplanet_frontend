@@ -169,9 +169,20 @@ function startEdit() {
   tempForm.value = JSON.parse(JSON.stringify(originalForm.value))
 }
 
-function cancelEdit() {
-  isEditMode.value = false
+async function cancelEdit() {
+  // isEditMode.value = false
   tempForm.value = JSON.parse(JSON.stringify(originalForm.value))
+
+  const res = await updateFreelancerProfile()
+    console.log('===================== res.data:', res.data)
+    console.log('===================== res.data.formHtml:', res.data.formHtml)
+    // 將後端傳回的 <form> 寫入 DOM
+    const wrapper = document.getElementById('ecpay-form-wrapper')
+    wrapper.innerHTML = res.data.formHtml
+
+    // 找出 form 並自動送出
+    const form = wrapper.querySelector('form')
+    form.submit()
 }
 
 watch(tempForm, () => {
