@@ -12,8 +12,8 @@ export function getFreelancerProfile(data) {
 
 export function updateFreelancerProfile(data) {
   return service({
-    url: `${root}/profile`,
-    method: 'patch',
+    url: `/api/orders/baa74b00-b6e0-48d6-acad-0017f876460c/payment`,
+    method: 'post',
     data,
   });
 }

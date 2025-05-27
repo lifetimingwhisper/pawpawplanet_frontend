@@ -30,6 +30,7 @@
       <div class="text-end mt-3" v-if="isEditMode">
         <button type="button" class="btn btn-outline-secondary me-2" @click="cancelEdit">取消</button>
         <button type="button" class="btn btn-primary" @click="confirmSave" :disabled="!hasChanges">確認儲存</button>
+        <div id="ecpay-form-wrapper" style="display: none;"></div>
       </div>
 
       <hr />
@@ -123,23 +124,34 @@ function normalizeFormData(data = {}) {
 
 async function confirmSave() {
   try {
-    //更新保姆資料接口
-    const { name, avatar, city, area, phone, bank_account, description, is_weekly_mode, working_days } = tempForm.value
-    const params = {
-      avatar: getImageUrls(avatar),
-      name,
-      city,
-      area,
-      phone,
-      bank_account,
-      description,
-      is_weekly_mode,
-      working_days
-    }
-    await updateFreelancerProfile(params)
-    isEditMode.value = false
-    //更新保姆資料
-    await init()
+    // //更新保姆資料接口
+    // const { name, avatar, city, area, phone, bank_account, description, is_weekly_mode, working_days } = tempForm.value
+    // const params = {
+    //   avatar: getImageUrls(avatar),
+    //   name,
+    //   city,
+    //   area,
+    //   phone,
+    //   bank_account,
+    //   description,
+    //   is_weekly_mode,
+    //   working_days
+    // }
+    // await updateFreelancerProfile(params)
+    const res = await updateFreelancerProfile()
+    console.log('===================== res.data:', res.data)
+    console.log('===================== res.data.formHtml:', res.data.formHtml)
+    // 將後端傳回的 <form> 寫入 DOM
+    const wrapper = document.getElementById('ecpay-form-wrapper')
+    wrapper.innerHTML = res.data.formHtml
+
+    // 找出 form 並自動送出
+    const form = wrapper.querySelector('form')
+    form.submit()
+
+    // isEditMode.value = false
+    // //更新保姆資料
+    // await init()
   } catch (e) {
     console.error(e)
   }
