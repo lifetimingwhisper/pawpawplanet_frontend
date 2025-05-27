@@ -174,8 +174,9 @@ async function cancelEdit() {
   tempForm.value = JSON.parse(JSON.stringify(originalForm.value))
 
   const res = await updateFreelancerProfile()
-    console.log('===================== res.data:', res.data)
-    console.log('===================== res.data.formHtml:', res.data.formHtml)
+  console.log('===================== res:', res)
+  console.log('===================== res.data:', res.data)
+  console.log('===================== res.data.formHtml:', res.data.formHtml)
     // 將後端傳回的 <form> 寫入 DOM
     const wrapper = document.getElementById('ecpay-form-wrapper')
     wrapper.innerHTML = res.data.formHtml
